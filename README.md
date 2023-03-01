@@ -41,8 +41,14 @@ This template contains lambda functions triggered by an HTTP request made on the
 
 In order to test the hello function locally, run the following command:
 
-- `npx sls invoke local -f hello --path src/functions/hello/mock.json` if you're using NPM
-- `yarn sls invoke local -f hello --path src/functions/hello/mock.json` if you're using Yarn
+if you're using NPM
+- `npx sls invoke local -f getProductsList --path src/functions/getProductsList/mock.json` 
+- `npx sls invoke local -f getProductsById --path src/functions/getProductsById/mock.json` 
+
+if you're using Yarn
+- `yarn sls invoke local -f getProductsById --path src/functions/getProductsById/mock.json` 
+- `npx sls invoke local -f getProductsList --path src/functions/getProductsList/mock.json`
+
 
 Check the [sls invoke local command documentation](https://www.serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/) for more information.
 
