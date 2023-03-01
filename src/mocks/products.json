@@ -1,0 +1,68 @@
+[
+  {
+    "id": "0",
+    "title": "Ducati monster",
+    "description": "Naked sport bike",
+    "price": 3400
+  },
+  {
+    "id": "1",
+    "title": "Yamaha R1",
+    "description": "Super sport bike",
+    "price": 4400
+  },
+  {
+    "id": "2",
+    "title": "Honda Fireblade",
+    "description": "Super sport bike",
+    "price": 3900
+  },
+  {
+    "id": "3",
+    "title": "BMW GS 1250",
+    "description": "Touring enduro bike",
+    "price": 4000
+  },
+  {
+    "id": "4",
+    "title": "Kawasaki zx10",
+    "description": "Super sport bike",
+    "price": 4200
+  },
+  {
+    "id": "5",
+    "title": "Indian ftr 1200 sport",
+    "description": "Sport touring bike",
+    "price": 5400
+  },
+  {
+    "id": "6",
+    "title": "Ducati panigale v4",
+    "description": "Super sport bike",
+    "price": 5500
+  },
+  {
+    "id": "7",
+    "title": "BMW R nine T",
+    "description": "Roadster bike",
+    "price": 3800
+  },
+  {
+    "id": "8",
+    "title": "Ducati multistrada",
+    "description": "Touring sport bike",
+    "price": 4800
+  },
+  {
+    "id": "9",
+    "title": "Yamaha r6",
+    "description": "Super sport bike",
+    "price": 3900
+  },
+  {
+    "id": "10",
+    "title": "MV agusta 800",
+    "description": "Naked sport bike",
+    "price": 4400
+  }
+]
