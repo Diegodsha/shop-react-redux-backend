@@ -22,11 +22,18 @@ Depending on your preferred package manager, follow the instructions below to de
 
 ## Test your service
 
-This template contains a single lambda function triggered by an HTTP request made on the provisioned API Gateway REST API `/hello` route with `POST` method. The request body must be provided as `application/json`. The body structure is tested by API Gateway against `src/functions/hello/schema.ts` JSON-Schema definition: it must contain the `name` property.
+This template contains lambda functions triggered by an HTTP request made on the provisioned API Gateway REST API `/products` & `/products/{id}` routes with `GET` method. The body structure is tested by API Gateway against
+- `src/functions/getProductsList/schema.ts` JSON-Schema definition: it must contain the `title` & `description` properties 
+- `src/functions/getProductsById/schema.ts` JSON-Schema definition: it must contain the `id` property.
 
-- requesting any other path than `/hello` with any other method than `POST` will result in API Gateway returning a `403` HTTP error code
+<!-- 
+- requesting any other path than `/products` with any other method than `POST` will result in API Gateway returning a `403` HTTP error code
 - sending a `POST` request to `/hello` with a payload **not** containing a string property named `name` will result in API Gateway returning a `400` HTTP error code
-- sending a `POST` request to `/hello` with a payload containing a string property named `name` will result in API Gateway returning a `200` HTTP status code with a message saluting the provided name and the detailed event processed by the lambda
+-->
+
+ - sending a `GET` request to `/products` will result in API Gateway returning a `200` HTTP status code with a product list and the detailed event processed by the lambda
+ 
+- sending a `GET` request to `/products/{id}` with a route containing a number property named `id` will result in API Gateway returning a `200` HTTP status code with a specific product and the detailed event processed by the lambda
 
 > :warning: As is, this template, once deployed, opens a **public** endpoint within your AWS account resources. Anybody with the URL can actively execute the API Gateway endpoint and the corresponding lambda. You should protect this endpoint with the authentication method of your choice.
 
@@ -34,8 +41,14 @@ This template contains a single lambda function triggered by an HTTP request mad
 
 In order to test the hello function locally, run the following command:
 
-- `npx sls invoke local -f hello --path src/functions/hello/mock.json` if you're using NPM
-- `yarn sls invoke local -f hello --path src/functions/hello/mock.json` if you're using Yarn
+if you're using NPM
+- `npx sls invoke local -f getProductsList --path src/functions/getProductsList/mock.json` 
+- `npx sls invoke local -f getProductsById --path src/functions/getProductsById/mock.json` 
+
+if you're using Yarn
+- `yarn sls invoke local -f getProductsById --path src/functions/getProductsById/mock.json` 
+- `npx sls invoke local -f getProductsList --path src/functions/getProductsList/mock.json`
+
 
 Check the [sls invoke local command documentation](https://www.serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/) for more information.
 
@@ -43,11 +56,17 @@ Check the [sls invoke local command documentation](https://www.serverless.com/fr
 
 Copy and replace your `url` - found in Serverless `deploy` command output - and `name` parameter in the following `curl` command in your terminal or in Postman to test your newly deployed application.
 
+
 ```
-curl --location --request POST 'https://myApiEndpoint/dev/hello' \
+curl --location --request GET 'https://eh7z26ia2l.execute-api.us-east-1.amazonaws.com/dev/products' \
+--header 'Content-Type: application/json' \
+```
+
+```
+curl --location --request GET 'https://eh7z26ia2l.execute-api.us-east-1.amazonaws.com/dev/products/{id}' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-    "name": "Frederic"
+    "id": "number"
 }'
 ```
 
@@ -64,11 +83,19 @@ The project code base is mainly located within the `src` folder. This folder is 
 .
 ├── src
 │   ├── functions               # Lambda configuration and source code folder
-│   │   ├── hello
-│   │   │   ├── handler.ts      # `Hello` lambda source code
-│   │   │   ├── index.ts        # `Hello` lambda Serverless configuration
-│   │   │   ├── mock.json       # `Hello` lambda input parameter, if any, for local invocation
-│   │   │   └── schema.ts       # `Hello` lambda input event JSON-Schema
+│   │   ├── getProductsList
+│   │   │   ├── handler.ts      # `getProductsList` lambda source code
+│   │   │   ├── index.ts        # `getProductsList` lambda Serverless configuration
+│   │   │   ├── mock.json       # `getProductsList` lambda input parameter, if any, for local invocation
+│   │   │   └── schema.ts       # `getProductsList` lambda input event JSON-Schema
+│   │   │
+│   │   └── index.ts            # Import/export of all lambda configurations
+|   |   |
+|   |   ├── getProductsById
+│   │   │   ├── handler.ts      # `getProductsById` lambda source code
+│   │   │   ├── index.ts        # `getProductsById` lambda Serverless configuration
+│   │   │   ├── mock.json       # `getProductsById` lambda input parameter, if any, for local invocation
+│   │   │   └── schema.ts       # `getProductsById` lambda input event JSON-Schema
 │   │   │
 │   │   └── index.ts            # Import/export of all lambda configurations
 │   │
@@ -76,6 +103,7 @@ The project code base is mainly located within the `src` folder. This folder is 
 │       └── apiGateway.ts       # API Gateway specific helpers
 │       └── handlerResolver.ts  # Sharable library for resolving lambda handlers
 │       └── lambda.ts           # Lambda middleware
+│       └── helpers.ts          # functions that interacts with the lamdbas
 │
 ├── package.json
 ├── serverless.ts               # Serverless service file
