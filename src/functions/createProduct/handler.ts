@@ -9,7 +9,7 @@ import schema from './schema';
 const create = async ( data)=>{
   const id = uuidv4();
 
-  if (!data.title || !data.price || !data.description) {
+  if (!data.title || !data.price || !data.description || !data.count) {
     return null;
   }
 
