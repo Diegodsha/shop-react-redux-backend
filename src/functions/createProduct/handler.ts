@@ -1,6 +1,5 @@
 // import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse, ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import { findProductById } from '@libs/helpers';
 import { middyfy } from '@libs/lambda';
 const AWS = require('aws-sdk');
 const dynamo = new AWS.DynamoDB.DocumentClient();
@@ -9,6 +8,10 @@ import schema from './schema';
 
 const create = async ( data)=>{
   const id = uuidv4();
+
+  if (!data.title || !data.price || !data.description) {
+    return null;
+  }
 
   await dynamo.transactWrite({
     TransactItems: [
@@ -47,6 +50,10 @@ const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (
 
   try {
    const newProduct= create(productData)
+
+   if (!newProduct) {
+    return formatJSONResponse({message:`Product not created due to missing properties`},400);
+   }
 
     return newProduct
   } catch (error) {
