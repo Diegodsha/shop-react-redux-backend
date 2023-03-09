@@ -1,0 +1,136 @@
+{
+  "react-bike-shop-stocks-table": [
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "0"
+          },
+          "count": {
+            "N": "30"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "1"
+          },
+          "count": {
+            "N": "18"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "2"
+          },
+          "count": {
+            "N": "2"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "3"
+          },
+          "count": {
+            "N": "25"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "4"
+          },
+          "count": {
+            "N": "4"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "5"
+          },
+          "count": {
+            "N": "15"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "6"
+          },
+          "count": {
+            "N": "7"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "7"
+          },
+          "count": {
+            "N": "10"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "8"
+          },
+          "count": {
+            "N": "17"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "product_id": {
+            "S": "9"
+          },
+          "count": {
+            "N": "20"
+          }
+        }
+      }
+    },
+    {
+        "PutRequest": {
+            "Item": {
+              "product_id": {
+                "S": "10"
+              },
+              "count": {
+                "N": "19"
+              }
+            }
+          }
+    }
+  ]
+}

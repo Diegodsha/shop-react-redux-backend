@@ -4,7 +4,10 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "sls deploy",
+    "migrate:tables": "npm run migrate:products && npm run migrate:stocks",
+    "migrate:stocks": "aws dynamodb batch-write-item --request-items file://src/mocks/stock.migration.json",
+    "migrate:products": "aws dynamodb batch-write-item --request-items file://src/mocks/products.migration.json"
   },
   "engines": {
     "node": ">=14.15.0"
@@ -12,7 +15,8 @@
   "dependencies": {
     "@middy/core": "^3.4.0",
     "@middy/http-header-normalizer": "^4.2.6",
-    "@middy/http-json-body-parser": "^3.4.0"
+    "@middy/http-json-body-parser": "^3.4.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@serverless/typescript": "^3.0.0",

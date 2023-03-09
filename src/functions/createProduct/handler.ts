@@ -1,14 +1,59 @@
 // import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import { formatJSONResponse } from '@libs/api-gateway';
+import { formatJSONResponse, ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { findProductById } from '@libs/helpers';
 import { middyfy } from '@libs/lambda';
+const AWS = require('aws-sdk');
+const dynamo = new AWS.DynamoDB.DocumentClient();
+import { v4 as uuidv4 } from 'uuid';
+import schema from './schema';
 
-// import schema from './schema';
+const create = async ( data)=>{
+  const id = uuidv4();
 
-const createProduct = async (event) => {
-  const { id } = event.pathParameters;
+  await dynamo.transactWrite({
+    TransactItems: [
+      {
+        Put: {
+          TableName: process.env.STOCKS_TABLE,
+          Item: {
+            product_id: id,
+            count: data.count,
+          },
+        },
+      },
+      {
+        Put: {
+          TableName: process.env.PRODUCTS_TABLE,
+          Item: {
+            id: id,
+            description: data.description,
+            price: data.price,
+            title: data.title,
+          },
+        },
+      },
+    ],
+  }).promise();
 
-  return formatJSONResponse(findProductById(id));
+  return { ...data, id: id};
+
+}
+
+const createProduct: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+
+  const {productData} = event.body
+
+  console.log(productData);
+
+  try {
+   const newProduct= create(productData)
+
+    return newProduct
+  } catch (error) {
+    
+    return formatJSONResponse({message:`Product not created ${error.message}`},500);
+  }
+
 };
 
 export const main = middyfy(createProduct);
