@@ -1,31 +1,38 @@
 import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { middyfy } from '@libs/lambda';
+import { Product, Stock } from 'src/types/products';
 import schema from './schema';
-const AWS = require('aws-sdk');
-const dynamo = new AWS.DynamoDB.DocumentClient();
+import { DynamoDB } from 'aws-sdk';
+
+const dynamo = new DynamoDB.DocumentClient();
 
 const scanById = async (id) => {
-  const { Item: productItem } = await dynamo
+
+    const productPromise =  dynamo
     .get({
       TableName: process.env.PRODUCTS_TABLE,
       Key: { id: id },
     })
-    .promise();
+    .promise()
 
-  const { Item: stockItem } = await dynamo
+    const stocksPromise = dynamo
     .get({
       TableName: process.env.STOCKS_TABLE,
       Key: { product_id: id },
     })
     .promise();
 
-  return stockItem?.count
-    ? {
+    const [{value: {Item: productItem}}, {value: {Item: stockItem}}] = await Promise.allSettled([productPromise, stocksPromise]) as unknown as [{value:{Item:Product}},{value:{Item:Stock}}]
+    
+    if (!productItem || !stockItem) {
+      return
+    }
+
+  return  {
         ...productItem,
         count: stockItem.count,
       }
-    : null;
 };
 
 const getProductsById: ValidatedEventAPIGatewayProxyEvent<
