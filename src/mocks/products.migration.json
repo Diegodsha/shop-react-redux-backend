@@ -1,0 +1,202 @@
+{
+    "react-bike-shop-products-table": [
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {
+              "S": "0"
+            },
+            "title": {
+              "S": "Ducati monster"
+            },
+            "description": {
+              "S": "Naked sport bike"
+            },
+            "price": {
+              "N": "3400"
+            }
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {
+                "S": "1"
+              },
+              "title": {
+                "S": "Yamaha R1"
+              },
+              "description": {
+                "S": "Super sport bike"
+              },
+              "price": {
+                "N": "4400"
+              }
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {
+                "S": "2"
+              },
+              "title": {
+                "S": "Honda Fireblade"
+              },
+              "description": {
+                "S": "Super sport bike"
+              },
+              "price": {
+                "N": "3900"
+              }
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {
+                "S": "3"
+              },
+              "title": {
+                "S": "BMW GS 1250"
+              },
+              "description": {
+                "S": "Touring enduro bike"
+              },
+              "price": {
+                "N": "4000"
+              }
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {
+                "S": "4"
+              },
+              "title": {
+                "S": "Kawasaki zx10"
+              },
+              "description": {
+                "S": "Super sport bike"
+              },
+              "price": {
+                "N": "4200"
+              }
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {
+                "S": "5"
+              },
+              "title": {
+                "S": "Indian ftr 1200 sport"
+              },
+              "description": {
+                "S": "Sport touring bike"
+              },
+              "price": {
+                "N": "5400"
+              }
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {
+                "S": "6"
+              },
+              "title": {
+                "S": "Ducati panigale v4"
+              },
+              "description": {
+                "S": "Super sport bike"
+              },
+              "price": {
+                "N": "5500"
+              }
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {
+                "S": "7"
+              },
+              "title": {
+                "S": "BMW R nine T"
+              },
+              "description": {
+                "S": "Roadster bike"
+              },
+              "price": {
+                "N": "3800"
+              }
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {
+                "S": "8"
+              },
+              "title": {
+                "S": "Ducati multistrada"
+              },
+              "description": {
+                "S": "Touring sport bike"
+              },
+              "price": {
+                "N": "4800"
+              }
+          }
+        }
+      },
+      {
+        "PutRequest": {
+          "Item": {
+            "id": {
+                "S": "9"
+              },
+              "title": {
+                "S": "Yamaha R6"
+              },
+              "description": {
+                "S": "Super sport bike"
+              },
+              "price": {
+                "N": "3900"
+              }
+          }
+        }
+      },
+      {
+          "PutRequest": {
+              "Item": {
+                "id": {
+                "S": "10"
+              },
+              "title": {
+                "S": "MV agusta 800"
+              },
+              "description": {
+                "S": "Naked sport bike"
+              },
+              "price": {
+                "N": "4400"
+              }
+              }
+            }
+      }
+    ]
+  }
