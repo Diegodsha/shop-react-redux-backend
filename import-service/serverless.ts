@@ -1,6 +1,8 @@
 import type { AWS } from '@serverless/typescript';
-
-import hello from '@functions/hello';
+import * as dotenv from 'dotenv';
+import importProductsFile from '@functions/importProductsFile';
+import importFileParser from '@functions/importFileParser';
+dotenv.config()
 
 const serverlessConfiguration: AWS = {
   service: 'import-service',
@@ -9,18 +11,57 @@ const serverlessConfiguration: AWS = {
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
+    stage: 'dev',
+    region: 'us-east-1',
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
     },
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: ['s3:*'],
+        Resource: [
+          `arn:aws:s3:::${process.env.PRODUCTS_IMPORT_BUCKET_NAME}`,
+          `arn:aws:s3:::${process.env.PRODUCTS_IMPORT_BUCKET_NAME}/*`,
+        ],
+      },
+    ],
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      BUCKET_IMPORT: `${process.env.PRODUCTS_IMPORT_BUCKET_NAME}`
     },
   },
   // import the function via paths
-  functions: { hello },
+  functions: { importProductsFile,importFileParser },
   package: { individually: true },
+  // resources: {
+  //   Resources: {
+  //     Bucket: {
+  //       Type: 'AWS::S3::BUCKET',
+  //       Properties: {
+  //         BucketName: `${process.env.PRODUCTS_IMPORT_BUCKET_NAME}`,
+  //         PublicAccessBlockConfiguration: {
+  //           BlockPublicAcls: true,
+  //           BlockPublicPolicy: true,
+  //           IgnorePublicAcls: true,
+  //           RestritcPublicBuckets: true,
+  //         },
+  //         CorsConfiguration: {
+  //           CorsRules: [
+  //             {
+  //               AllowedHeaders: ['Content-Type'],
+  //               AllowedMethods: ['PUT', 'GET'],
+  //               AllowedOrigins: ['*'],
+  //               MaxAge: 3600,
+  //             },
+  //           ],
+  //         },
+  //       },
+  //     },
+  //   },
+  // },
   custom: {
     esbuild: {
       bundle: true,
