@@ -36,32 +36,6 @@ const serverlessConfiguration: AWS = {
   // import the function via paths
   functions: { importProductsFile,importFileParser },
   package: { individually: true },
-  // resources: {
-  //   Resources: {
-  //     Bucket: {
-  //       Type: 'AWS::S3::BUCKET',
-  //       Properties: {
-  //         BucketName: `${process.env.PRODUCTS_IMPORT_BUCKET_NAME}`,
-  //         PublicAccessBlockConfiguration: {
-  //           BlockPublicAcls: true,
-  //           BlockPublicPolicy: true,
-  //           IgnorePublicAcls: true,
-  //           RestritcPublicBuckets: true,
-  //         },
-  //         CorsConfiguration: {
-  //           CorsRules: [
-  //             {
-  //               AllowedHeaders: ['Content-Type'],
-  //               AllowedMethods: ['PUT', 'GET'],
-  //               AllowedOrigins: ['*'],
-  //               MaxAge: 3600,
-  //             },
-  //           ],
-  //         },
-  //       },
-  //     },
-  //   },
-  // },
   custom: {
     esbuild: {
       bundle: true,

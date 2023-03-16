@@ -38,6 +38,7 @@ const importFileParser = async (event) => {
 
       (getObjectResponse.Body as Readable)
         .pipe(csv())
+        .on('data', (data) => console.log(data))
         .on('end', () => {
           console.log('CSV file successfully parsed');
         })
@@ -59,8 +60,9 @@ const importFileParser = async (event) => {
       const commandDelete = new DeleteObjectCommand(getObjectInput);
 
       await client.send(commandDelete);
-      return formatJSONResponse({ message: 'File has been imported' }, 202);
     }
+
+    return formatJSONResponse({ message: 'File has been imported' }, 202);
   } catch (error) {
     return formatJSONResponse(
       { message: `Error importing file ${error}` },

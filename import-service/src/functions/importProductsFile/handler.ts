@@ -25,7 +25,8 @@ const importProductsFile = async (event) => {
   });
 
   try {
-    const url = getSignedUrl(client, command, { expiresIn: 3600 });
+    const url = await getSignedUrl(client, command, { expiresIn: 3600 });
+    console.log(url);
     return formatJSONResponse({url},200)
   } catch (error) {
     return formatJSONResponse({message:error.message},500)
