@@ -71,4 +71,4 @@ const importFileParser = async (event) => {
   }
 };
 
-export const main = middyfy(importFileParser);
+export const main = importFileParser;

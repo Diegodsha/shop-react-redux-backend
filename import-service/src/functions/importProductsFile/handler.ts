@@ -6,12 +6,13 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-const importProductsFile = async (event) => {
+export const importProductsFile = async (event) => {
   const { name } = event.queryStringParameters;
   console.log(name);
 
   const { PRODUCTS_IMPORT_BUCKET_NAME: bucketName } = process.env;
 
+  
   if (!bucketName) {
     throw new Error('PRODUCTS_IMPORT_BUCKET_NAME environment variable is missing');
   }
@@ -25,6 +26,9 @@ const importProductsFile = async (event) => {
   });
 
   try {
+    if (!name) {
+      return formatJSONResponse({message:'name param is not valid or missing'},404);
+    }
     const url = await getSignedUrl(client, command, { expiresIn: 3600 });
     console.log(url);
     return formatJSONResponse({url},200)
