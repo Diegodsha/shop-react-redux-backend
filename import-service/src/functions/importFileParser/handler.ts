@@ -23,7 +23,6 @@ const importFileParser = async (event) => {
     );
   }
   try {
-    console.log(event.Records)
     for (const record of event.Records) {
       const key = record.s3.object.key;
 
