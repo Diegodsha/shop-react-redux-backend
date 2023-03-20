@@ -23,6 +23,7 @@ const importFileParser = async (event) => {
     );
   }
   try {
+    console.log(event.Records)
     for (const record of event.Records) {
       const key = record.s3.object.key;
 
@@ -49,7 +50,7 @@ const importFileParser = async (event) => {
       //Copy
       const copyObjectInput = {
         Bucket: bucketName,
-        CopySource: `${bucketName}/${record.s3.object.Key}`,
+        CopySource: `${bucketName}/${key}`,
         Key: key.replace('uploaded', 'parsed'),
       };
 
