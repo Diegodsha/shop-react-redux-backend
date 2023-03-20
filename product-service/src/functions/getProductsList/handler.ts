@@ -2,26 +2,31 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
 import { formatJSONResponse } from '@libs/api-gateway';
 import { joinTables } from '@libs/helpers';
 import { middyfy } from '@libs/lambda';
+import { Product, Stock } from 'src/types/products';
 import schema from './schema';
-const AWS = require('aws-sdk');
-const dynamo = new AWS.DynamoDB.DocumentClient();
+import { DynamoDB} from 'aws-sdk';
+
+const dynamo = new DynamoDB.DocumentClient();
 
 const scan = async ()=>{
-    const {Items: productsItems} = await dynamo.scan({
+    const productPromise =  dynamo.scan({
         TableName: process.env.PRODUCTS_TABLE
     }).promise();
    
-    const {Items: stocksItems} = await dynamo.scan({
+    const stocksPromise =  dynamo.scan({
         TableName: process.env.STOCKS_TABLE
     }).promise();
-    
 
-  let joinedStocksProducts = joinTables(stocksItems, productsItems, 'product_id', 'id', 'count', 'Product with this id is not in the list')
+    
+    const [{value: {Items: productsItems}}, {value: {Items: stocksItems}}] = await Promise.allSettled([productPromise, stocksPromise])  as unknown as [{value:{Items:Product[]}},{value:{Items:Stock[]}}]
+    
+    console.log(productsItems)
+    let joinedStocksProducts = joinTables(stocksItems, productsItems, 'product_id', 'id', 'count', 'Product with this id is not in the list')
 
     return joinedStocksProducts;
 }
 
-const getProductsList: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async () => {
+const getProductsList: ValidatedEventAPIGatewayProxyEvent<typeof schema[]> = async () => {
   console.log('get products list');
   try {
     const products = await scan()
