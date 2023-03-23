@@ -1,5 +1,4 @@
 import { formatJSONResponse } from '@libs/api-gateway';
-import { middyfy } from '@libs/lambda';
 import {
   S3Client,
   CopyObjectCommand,
