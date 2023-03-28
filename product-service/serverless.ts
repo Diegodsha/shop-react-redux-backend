@@ -16,6 +16,15 @@ const serverlessConfiguration: AWS = {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
     },
+    environment: {
+      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      STOCKS_TABLE:'${self:service}-stocks-table',
+      PRODUCTS_TABLE:'${self:service}-products-table',
+      CATALOG_QUEUE_NAME: 'catalogItemsQueue',
+      TOPIC_NAME: 'createProductTopic',
+      TOPIC_ARN: { "Ref": "CreateProductTopic" },
+    },
     iamRoleStatements: [
       {
         Effect: 'Allow',
@@ -33,13 +42,21 @@ const serverlessConfiguration: AWS = {
           { 'Fn::GetAtt': ['ProductsTable', 'Arn'] },
         ],
       },
+      {
+        Effect: 'Allow',
+        Action: [
+          'sqs:*',
+        ],
+        Resource: 'arn:aws:sqs:*:*:${self:provider.environment.CATALOG_QUEUE_NAME}',
+      },
+      {
+        Effect: 'Allow',
+        Action: [
+          'sns:*',
+        ],
+        Resource: { "Ref": "CreateProductTopic" },
+      },
     ],
-    environment: {
-      AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-      NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      STOCKS_TABLE:'${self:service}-stocks-table',
-      PRODUCTS_TABLE:'${self:service}-products-table'
-    },
   },
   // import the function via paths
   functions: {
