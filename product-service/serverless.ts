@@ -24,7 +24,7 @@ const serverlessConfiguration: AWS = {
       PRODUCTS_TABLE: '${self:service}-products-table',
       CATALOG_QUEUE_NAME: 'catalogItemsQueue',
       TOPIC_NAME: 'createProductTopic',
-      TOPIC_ARN: { Ref: 'createProductTopic' },
+      TOPIC_ARN: { Ref: 'CreateProductTopic' },
     },
     iamRoleStatements: [
       {
@@ -128,7 +128,7 @@ const serverlessConfiguration: AWS = {
         Type: 'AWS::SNS::Subscription',
         Properties: {
           Protocol: 'email',
-          Endpoint: 'mich_raygt@gmail.com',
+          Endpoint: 'diegodsha@hotmail.com',
           TopicArn: '${self:provider.environment.TOPIC_ARN}',
         },
       },

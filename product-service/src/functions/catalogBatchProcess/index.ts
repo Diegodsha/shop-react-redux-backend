@@ -7,7 +7,7 @@ export default {
       sqs: {
         batchSize: 5,
         arn: {
-          'Fn::GetAtt': ['${self:provider.environment.CATALOG_QUEUE_NAME}', 'Arn']
+          'Fn::GetAtt': ['CatalogItemsQueue', 'Arn']
         }
       }
     }
