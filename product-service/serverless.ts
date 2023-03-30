@@ -124,13 +124,13 @@ const serverlessConfiguration: AWS = {
           TopicName: '${self:provider.environment.TOPIC_NAME}',
         },
       },
-      createProductTopicSubscriptionMoto: {
+      createProductTopicSubscriptionDucati: {
         Type: 'AWS::SNS::Subscription',
         Properties: {
           Protocol: 'email',
           Endpoint: 'diegodsha@hotmail.com',
           TopicArn: '${self:provider.environment.TOPIC_ARN}',
-          FilterPolicy: "{ \"title\": [\"Ducati\"] }",
+          FilterPolicy: "{ \"title\": [{\"prefix\":\"Ducati\"}] }",
           FilterPolicyScope: 'MessageAttributes'
         },
       },
@@ -140,7 +140,7 @@ const serverlessConfiguration: AWS = {
           Protocol: 'email',
           TopicArn:'${self:provider.environment.TOPIC_ARN}',
           Endpoint: 'diegodsha@hotmail.com',
-          FilterPolicy: "{ \"title\": [{\"anything-but\": \"Ducati\"}] }",
+          FilterPolicy: "{ \"title\": [{\"anything-but\": {\"prefix\":\"Ducati\"}}] }",
           FilterPolicyScope: 'MessageAttributes',}
       }
     },
