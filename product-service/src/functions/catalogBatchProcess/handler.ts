@@ -1,6 +1,5 @@
 import { formatJSONResponse } from '@libs/api-gateway';
 import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
-import { middyfy } from '@libs/lambda';
 import ProductsController from 'src/Controllers';
 
 const catalogBatchProcess = async (event) => {
@@ -42,4 +41,4 @@ const catalogBatchProcess = async (event) => {
   }
 };
 
-export const main = middyfy(catalogBatchProcess);
+export const main = catalogBatchProcess;

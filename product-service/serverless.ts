@@ -112,26 +112,37 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
-      CatalogItemsQueue: {
+      catalogItemsQueue: {
         Type: 'AWS::SQS::Queue',
         Properties: {
           QueueName: '${self:provider.environment.CATALOG_QUEUE_NAME}',
         },
       },
-      CreateProductTopic: {
+      createProductTopic: {
         Type: 'AWS::SNS::Topic',
         Properties: {
           TopicName: '${self:provider.environment.TOPIC_NAME}',
         },
       },
-      CreateProductTopicSubscription: {
+      createProductTopicSubscriptionMoto: {
         Type: 'AWS::SNS::Subscription',
         Properties: {
           Protocol: 'email',
           Endpoint: 'diegodsha@hotmail.com',
           TopicArn: '${self:provider.environment.TOPIC_ARN}',
+          FilterPolicy: "{ \"title\": [\"Ducati\"] }",
+          FilterPolicyScope: 'MessageAttributes'
         },
       },
+      createProductTopicSubscription:{
+        Type: 'AWS::SNS::Subscription',
+        Properties:{
+          Protocol: 'email',
+          TopicArn:'${self:provider.environment.TOPIC_ARN}',
+          Endpoint: 'diegodsha@hotmail.com',
+          FilterPolicy: "{ \"title\": [{\"anything-but\": \"Ducati\"}] }",
+          FilterPolicyScope: 'MessageAttributes',}
+      }
     },
   },
   custom: {
