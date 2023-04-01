@@ -26,6 +26,12 @@ const serverlessConfiguration: AWS = {
           `arn:aws:s3:::${process.env.PRODUCTS_IMPORT_BUCKET_NAME}/*`,
         ],
       },
+      {
+        Effect: "Allow",
+        Action: ["sqs:*"],
+        Resource:
+          "arn:aws:sqs:${self:provider.region}:*:catalogItemsQueue",
+      },
     ],
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
