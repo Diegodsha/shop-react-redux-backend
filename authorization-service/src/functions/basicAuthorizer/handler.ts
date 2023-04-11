@@ -48,14 +48,16 @@ function generatePolicy(
 }
 
 const basicAuthorizer = async (event) => {
-  const authorizationToken = event.headers["Authorization"];
+  console.log('this is your event:',event)
+  const authorizationToken = event["authorizationToken"];
 
   const [isAuthorized, user] = authorize(authorizationToken);
 
+  console.log(`authorize result:${isAuthorized}, ${user}`)
   const policy = generatePolicy(
     user,
     isAuthorized ? Effect.ALLOW : Effect.DENY,
-    event.routeArn
+    event.methodArn
   );
 
   console.log("Generated policy: ", JSON.stringify(policy));
