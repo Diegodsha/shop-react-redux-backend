@@ -2,7 +2,7 @@ import type { AWS } from '@serverless/typescript';
 import * as dotenv from 'dotenv';
 import importProductsFile from '@functions/importProductsFile';
 import importFileParser from '@functions/importFileParser';
-dotenv.config()
+dotenv.config();
 
 const serverlessConfiguration: AWS = {
   service: 'import-service',
@@ -27,21 +27,37 @@ const serverlessConfiguration: AWS = {
         ],
       },
       {
-        Effect: "Allow",
-        Action: ["sqs:*"],
-        Resource:
-          "arn:aws:sqs:${self:provider.region}:*:catalogItemsQueue",
+        Effect: 'Allow',
+        Action: ['sqs:*'],
+        Resource: 'arn:aws:sqs:${self:provider.region}:*:catalogItemsQueue',
       },
     ],
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      BUCKET_IMPORT: `${process.env.PRODUCTS_IMPORT_BUCKET_NAME}`
+      BUCKET_IMPORT: `${process.env.PRODUCTS_IMPORT_BUCKET_NAME}`,
     },
   },
   // import the function via paths
-  functions: { importProductsFile,importFileParser },
+  functions: { importProductsFile, importFileParser },
   package: { individually: true },
+  resources: {
+    Resources: {
+      GatewayResponseDefault4XX: {
+        Type: 'AWS::ApiGateway::GatewayResponse',
+        Properties: {
+          ResponseParameters: {
+            'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+            'gatewayresponse.header.Access-Control-Allow-Headers': "'*'",
+          },
+          ResponseType: 'DEFAULT_4XX',
+          RestApiId: {
+            Ref: 'ApiGatewayRestApi',
+          },
+        },
+      },
+    },
+  },
   custom: {
     esbuild: {
       bundle: true,
